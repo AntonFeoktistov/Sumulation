@@ -15,8 +15,9 @@ class Renderer:
     def to_render(map: Map):
         for i in range(map.M + 2):
             for j in range(map.N + 2):
-                cell = Cell(j, i)
+                cell = map.get_cell_by_coord(j, i)
                 type = map.field[cell].type
+                # type = cell.static_entity.type
                 print(
                     Renderer.sprites[type],
                     end="",

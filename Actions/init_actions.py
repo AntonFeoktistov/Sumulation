@@ -3,17 +3,17 @@ import random
 from Map.Map import Map
 from Map.Cell import Cell
 from Entities import Creatures, Static_entities
+from Entities.Static_entities import Wall
 
 
 def initialize_map(map: Map):
     for i in range(map.M + 2):
         for j in range(map.N + 2):
             cell = Cell(j, i)
-            if i == 0 or j == 0 or i == map.M + 1 or j == map.N + 1:
-                wall = make_wall(cell)
+            if i == 0 or j == 0 or (i == map.M + 1) or (j == map.N + 1):
+                wall = Wall(cell)
                 map.field[cell] = wall
                 cell.static_entity = wall
-                cell.entity = wall
                 wall.cell = cell
             else:
                 static_entity = make_random_static_entity(cell)
@@ -23,7 +23,6 @@ def initialize_map(map: Map):
                 if number <= 20:
                     creature = make_random_creature(cell)
                     map.field[cell] = creature
-                    cell.entity = creature
                     creature.cell = cell
                 else:
                     cell.entity = cell.static_entity

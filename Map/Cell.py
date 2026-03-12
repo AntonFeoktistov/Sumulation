@@ -2,7 +2,6 @@ class Cell:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.entity = None
         self.static_entity = None
 
     def __eq__(self, other):
@@ -14,7 +13,7 @@ class Cell:
         return hash((self.x, self.y))
 
     def __str__(self):
-        return f"({self.coord.x}, {self.coord.y})"
+        return f"({self.x}, {self.y})"
 
     def get_X(self):
         return self._x
