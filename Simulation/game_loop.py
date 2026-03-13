@@ -47,9 +47,6 @@ def start_game_loop(map: Map):
             # Выполняем шаг и рендерим
             make_one_step(map)
             print("Нажмите 'p' для паузы")
-            winner = turn_actions.find_winner(map)
-            if winner:
-                sys.exit(0)
             time.sleep(2)  # пауза между шагами
 
     finally:
@@ -125,7 +122,9 @@ def main_menu(map):
             # Ждём завершения симуляции
             while sim_thread.is_alive():
                 time.sleep(0.1)
-            break
+            winner = turn_actions.find_winner(map)
+            if winner:
+                break
 
         elif choice == "e":
             print("Программа завершена. До свидания!")

@@ -45,6 +45,6 @@ def make_wall(cell: Cell):
 
 def make_random_creature(cell: Cell):
     number = random.randint(1, 100)
-    if number <= 70:
+    if number <= 75:
         return creatures.Herbivore(cell)
     return creatures.Predator(cell)

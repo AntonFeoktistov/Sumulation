@@ -68,6 +68,6 @@ class Herbivore(Creature):
         super().__init__(cell)
         self.speed = 6
         self.current_speed = 6
-        self.hp = 12
+        self.hp = 13
         self.type = "herbivore"
         self.target = "grass"
