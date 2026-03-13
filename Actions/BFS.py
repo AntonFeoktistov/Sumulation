@@ -36,7 +36,7 @@ def is_target_around(cell: Cell, map: Map, target: str):
     cells_around = get_cells_around(cell, map)
     for neighbor in cells_around:
         if neighbor in map.field:
-            if target == map.field[neighbor].type:
+            if target == map.get_entity_by_cell(neighbor).type:
                 return neighbor
     return False
 
@@ -57,6 +57,6 @@ def get_cells_around(cell: Cell, map: Map):
 
 
 def is_cell_free_to_move(cell: Cell, map: Map):
-    if map.field[cell].type in ("herbivore", "predator", "wall"):
+    if map.get_entity_by_cell(cell).type in ("herbivore", "predator", "wall"):
         return False
     return True

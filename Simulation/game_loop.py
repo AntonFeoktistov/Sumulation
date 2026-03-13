@@ -14,7 +14,6 @@ LOCK = threading.Lock()
 
 
 def make_one_step(map: Map):
-    """Один шаг симуляции: ход существ + отрисовка"""
     turn_actions.make_all_move(map)
     Renderer.to_render(map)
     winner = turn_actions.find_winner(map)
@@ -22,19 +21,17 @@ def make_one_step(map: Map):
         with LOCK:
             SIMULATION_RUNNING = False
         if winner == "herbivore":
-            print("\n🎉 Вся трава съедена. Козы победили!")
+            print("\nВся трава съедена. Козы победили!")
         elif winner == "predator":
-            print("\n🎉 Все козы съедены. Лисы победили!")
+            print("\nВсе козы съедены. Лисы победили!")
         sys.exit(0)
 
 
 def start_game_loop(map: Map):
-    """Бесконечный цикл симуляции"""
     global SIMULATION_RUNNING, SIMULATION_PAUSED
 
     with LOCK:
         SIMULATION_RUNNING = True
-
     try:
         while True:
             with LOCK:
@@ -44,11 +41,9 @@ def start_game_loop(map: Map):
                     time.sleep(0.1)
                     continue
 
-            # Выполняем шаг и рендерим
             make_one_step(map)
             print("Нажмите 'p' для паузы")
-            time.sleep(2)  # пауза между шагами
-
+            time.sleep(2)
     finally:
         with LOCK:
             SIMULATION_RUNNING = False
@@ -66,12 +61,11 @@ def listen_for_input():
         if msvcrt.kbhit():
             key = msvcrt.getch().decode("utf-8").lower()
 
-            if key == "p":  # Пауза
+            if key == "p":
                 with LOCK:
                     SIMULATION_PAUSED = True
                 print("\n[ПАУЗА] Введите: 'p' — продолжить, 'm' — выйти в меню")
 
-                # Режим паузы: ждём команду
                 while SIMULATION_PAUSED and SIMULATION_RUNNING:
                     if msvcrt.kbhit():
                         cmd = msvcrt.getch().decode("utf-8").lower()
@@ -85,12 +79,10 @@ def listen_for_input():
                                 SIMULATION_PAUSED = False
                             print("Выход в меню...")
                     time.sleep(0.05)
-
         time.sleep(0.05)
 
 
 def main_menu(map):
-    """Основное меню"""
     global SIMULATION_RUNNING, SIMULATION_PAUSED
 
     while True:
@@ -110,7 +102,6 @@ def main_menu(map):
                 SIMULATION_RUNNING = False
                 SIMULATION_PAUSED = False
 
-            # Запускаем потоки
             sim_thread = threading.Thread(
                 target=start_game_loop, args=(map,), daemon=True
             )
@@ -119,7 +110,6 @@ def main_menu(map):
             sim_thread.start()
             input_thread.start()
 
-            # Ждём завершения симуляции
             while sim_thread.is_alive():
                 time.sleep(0.1)
             winner = turn_actions.find_winner(map)
@@ -129,6 +119,5 @@ def main_menu(map):
         elif choice == "e":
             print("Программа завершена. До свидания!")
             break
-
         else:
             print("Неверный ввод. Попробуйте ещё раз.")

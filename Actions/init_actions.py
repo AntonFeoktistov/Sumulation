@@ -13,17 +13,17 @@ def initialize_map(map: Map):
             map.cells[(j, i)] = cell
             if i == 0 or j == 0 or (i == map.M + 1) or (j == map.N + 1):
                 wall = Wall(cell)
-                map.field[cell] = wall
+                map.set_entity_to_cell(cell, wall)
                 cell.static_entity = wall
                 wall.cell = cell
             else:
                 static_entity = make_random_static_entity(cell)
-                map.field[cell] = static_entity
+                map.set_entity_to_cell(cell, static_entity)
                 cell.static_entity = static_entity
                 number = random.randint(1, 100)
                 if number <= 15:
                     creature = make_random_creature(cell)
-                    map.field[cell] = creature
+                    map.set_entity_to_cell(cell, creature)
                     creature.cell = cell
                 else:
                     cell.entity = cell.static_entity
@@ -45,6 +45,6 @@ def make_wall(cell: Cell):
 
 def make_random_creature(cell: Cell):
     number = random.randint(1, 100)
-    if number <= 75:
+    if number <= 70:
         return creatures.Herbivore(cell)
     return creatures.Predator(cell)

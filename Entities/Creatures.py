@@ -12,8 +12,8 @@ class Creature(Entity):
     def move_to(self, cell_to: Cell, map: Map):
         if self.cell == cell_to:
             return
-        map.field[self.cell] = self.cell.static_entity
-        map.field[cell_to] = self
+        map.set_entity_to_cell(self.cell, self.cell.static_entity)
+        map.set_entity_to_cell(cell_to, self)
         self.cell = cell_to
 
     def make_move(self, map: Map):
@@ -35,7 +35,7 @@ class Creature(Entity):
             path = bfs.find_path(self, map) if self.current_speed > 0 else []
 
     def eat_target(self, target_cell: Cell, map: Map):
-        enemy = map.field[target_cell]
+        enemy = map.get_entity_by_cell(target_cell)
         while self.current_speed > 0 and enemy.hp > 0:
             self.current_speed -= 1
             enemy.hp -= 1
@@ -68,6 +68,6 @@ class Herbivore(Creature):
         super().__init__(cell)
         self.speed = 6
         self.current_speed = 6
-        self.hp = 13
+        self.hp = 12
         self.type = "herbivore"
         self.target = "grass"

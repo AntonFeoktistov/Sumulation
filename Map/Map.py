@@ -11,6 +11,12 @@ class Map:
     def get_cell_by_coord(self, x: int, y: int):
         return self.cells.get((x, y), None)
 
+    def get_entity_by_cell(self, cell: Cell):
+        return self.field[cell]
+
+    def set_entity_to_cell(self, cell: Cell, entity):
+        self.field[cell] = entity
+
     def get_all_creatures(self):
         creatures = []
         for ent in self.field.values():
