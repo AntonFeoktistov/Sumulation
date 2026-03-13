@@ -1,5 +1,4 @@
-from Map.Map import Map
-from Map.Cell import Cell
+from map.map import Map
 
 
 class Renderer:
@@ -17,7 +16,6 @@ class Renderer:
             for j in range(map.N + 2):
                 cell = map.get_cell_by_coord(j, i)
                 type = map.field[cell].type
-                # type = cell.static_entity.type
                 print(
                     Renderer.sprites[type],
                     end="",

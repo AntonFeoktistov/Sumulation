@@ -1,4 +1,4 @@
-from Map.Cell import Cell
+from map.cell import Cell
 
 
 class Map:
@@ -6,14 +6,10 @@ class Map:
         self.N = N
         self.M = M
         self.field = {}
+        self.cells = {}
 
     def get_cell_by_coord(self, x: int, y: int):
-        if x < 0 or y < 0 or x > self.N + 1 or y > self.M + 1:
-            return None
-        for cell in self.field:
-            if cell.x == x and cell.y == y:
-                return cell
-        return None
+        return self.cells.get((x, y), None)
 
     def get_all_creatures(self):
         creatures = []

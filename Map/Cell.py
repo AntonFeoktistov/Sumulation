@@ -14,15 +14,3 @@ class Cell:
 
     def __str__(self):
         return f"({self.x}, {self.y})"
-
-    def get_X(self):
-        return self._x
-
-    def get_Y(self):
-        return self._y
-
-    def set_X(self, x):
-        self._x = x
-
-    def set_Y(self, y):
-        self._y = y

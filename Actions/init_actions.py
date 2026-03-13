@@ -1,15 +1,16 @@
 import random
 
-from Map.Map import Map
-from Map.Cell import Cell
-from Entities import Creatures, Static_entities
-from Entities.Static_entities import Wall
+from map.map import Map
+from map.cell import Cell
+from entities import creatures, static_entities
+from entities.static_entities import Wall
 
 
 def initialize_map(map: Map):
     for i in range(map.M + 2):
         for j in range(map.N + 2):
             cell = Cell(j, i)
+            map.cells[(j, i)] = cell
             if i == 0 or j == 0 or (i == map.M + 1) or (j == map.N + 1):
                 wall = Wall(cell)
                 map.field[cell] = wall
@@ -20,7 +21,7 @@ def initialize_map(map: Map):
                 map.field[cell] = static_entity
                 cell.static_entity = static_entity
                 number = random.randint(1, 100)
-                if number <= 20:
+                if number <= 15:
                     creature = make_random_creature(cell)
                     map.field[cell] = creature
                     creature.cell = cell
@@ -31,19 +32,19 @@ def initialize_map(map: Map):
 
 def make_random_static_entity(cell: Cell):
     number = random.randint(1, 100)
-    if number < 60:
-        return Static_entities.Grass(cell)
-    if 60 <= number <= 80:
-        return Static_entities.Tree(cell)
-    return Static_entities.Rock(cell)
+    if number < 50:
+        return static_entities.Grass(cell)
+    if 50 <= number <= 80:
+        return static_entities.Tree(cell)
+    return static_entities.Rock(cell)
 
 
 def make_wall(cell: Cell):
-    return Static_entities.Wall(cell)
+    return static_entities.Wall(cell)
 
 
 def make_random_creature(cell: Cell):
     number = random.randint(1, 100)
-    if number <= 50:
-        return Creatures.Herbivore(cell)
-    return Creatures.Predator(cell)
+    if number <= 70:
+        return creatures.Herbivore(cell)
+    return creatures.Predator(cell)

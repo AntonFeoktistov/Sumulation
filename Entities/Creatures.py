@@ -1,9 +1,8 @@
-from Entities import Static_entities
-
-from .Entity import Entity
-from Map import Map
-from Map.Cell import Cell
-from Actions import BFS, turn_actions
+from .entity import Entity
+from . import static_entities
+from map.map import Map
+from map.cell import Cell
+from actions import bfs
 
 
 class Creature(Entity):
@@ -18,21 +17,22 @@ class Creature(Entity):
         self.cell = cell_to
 
     def make_move(self, map: Map):
-        path = BFS.find_path(self, map)
+        # ищет цель, идет к ней, ест и так по кругу пока есть энергия
+        path = bfs.find_path(self, map)
         while path:
-            self.current_speed += 1
+            self.current_speed += 1  # первая клетка пути - текущее положение
             for cell in path:
                 self.move_to(cell, map)
                 self.current_speed -= 1
                 if self.current_speed == 0:
                     break
             while self.current_speed > 0:
-                target_cell = BFS.is_target_around(self.cell, map, self.target)
+                target_cell = bfs.is_target_around(self.cell, map, self.target)
                 if target_cell:
                     self.eat_target(target_cell, map)
                 else:
                     break
-            path = BFS.find_path(self, map) if self.current_speed > 0 else []
+            path = bfs.find_path(self, map) if self.current_speed > 0 else []
 
     def eat_target(self, target_cell: Cell, map: Map):
         enemy = map.field[target_cell]
@@ -43,12 +43,13 @@ class Creature(Entity):
             self.kill_enemy(target_cell, map)
 
     def kill_enemy(self, target_cell: Cell, map: Map):
+        # на месте съеденной травы появляется камень
         self.hp += 2
-        if map.field[target_cell].type == "herbiovore":
+        if map.field[target_cell].type == "herbivore":
             map.field[target_cell] = target_cell.static_entity
 
         if map.field[target_cell].type == "grass":
-            map.field[target_cell] = Static_entities.Rock(target_cell)
+            map.field[target_cell] = static_entities.Rock(target_cell)
 
 
 class Predator(Creature):
@@ -65,8 +66,8 @@ class Herbivore(Creature):
 
     def __init__(self, cell):
         super().__init__(cell)
-        self.speed = 4
-        self.current_speed = 4
-        self.hp = 10
+        self.speed = 6
+        self.current_speed = 6
+        self.hp = 12
         self.type = "herbivore"
         self.target = "grass"

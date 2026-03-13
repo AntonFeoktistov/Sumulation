@@ -1,10 +1,10 @@
-from .Entity import Entity
+from .entity import Entity
 
 
 class Grass(Entity):
     def __init__(self, cell):
         super().__init__(cell)
-        self.hp = 10
+        self.hp = 13
         self.type = "grass"
 
 
