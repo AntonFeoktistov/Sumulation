@@ -17,6 +17,8 @@ def find_winner(map: Map):
             count_grass += 1
         if entity.type == "herbivore":
             count_herbivore += 1
+        if count_grass > 0 and count_herbivore > 0:
+            return False
     if count_grass == 0:
         return "herbivore"
     if count_herbivore == 0:

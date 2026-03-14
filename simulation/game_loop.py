@@ -7,7 +7,6 @@ from map.map import Map
 from renderer.renderer import Renderer
 from actions import turn_actions
 
-# Глобальные флаги + блокировка для потокобезопасности
 SIMULATION_RUNNING = False
 SIMULATION_PAUSED = False
 LOCK = threading.Lock()
@@ -50,17 +49,14 @@ def start_game_loop(map: Map):
 
 
 def listen_for_input():
-    """Поток, слушающий ввод пользователя"""
     global SIMULATION_RUNNING, SIMULATION_PAUSED
 
     while True:
         with LOCK:
             if not SIMULATION_RUNNING:
                 break
-
         if msvcrt.kbhit():
             key = msvcrt.getch().decode("utf-8").lower()
-
             if key == "p":
                 with LOCK:
                     SIMULATION_PAUSED = True
@@ -86,18 +82,16 @@ def main_menu(map):
     global SIMULATION_RUNNING, SIMULATION_PAUSED
 
     while True:
-        print("s — Сделать один ход", end="| ")
-        print("q — Начать бесконечную симуляцию", end="| ")
+        print("s — Сделать один ход", end=" | ")
+        print("q — Начать бесконечную симуляцию", end=" | ")
         print("e — Выйти")
 
         choice = input("Выберите действие: ").strip().lower()
 
         if choice == "s":
             make_one_step(map)
-
         elif choice == "q":
             print("Запускаю бесконечную симуляцию... (нажмите 'p' для паузы)")
-
             with LOCK:
                 SIMULATION_RUNNING = False
                 SIMULATION_PAUSED = False

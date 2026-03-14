@@ -44,12 +44,12 @@ class Creature(Entity):
 
     def kill_enemy(self, target_cell: Cell, map: Map):
         # на месте съеденной травы появляется камень
-        self.hp += 2
-        if map.field[target_cell].type == "herbivore":
-            map.field[target_cell] = target_cell.static_entity
+        self.hp += 3
+        if map.get_entity_by_cell(target_cell).type == "herbivore":
+            map.set_entity_to_cell(target_cell, target_cell.static_entity)
 
-        if map.field[target_cell].type == "grass":
-            map.field[target_cell] = static_entities.Rock(target_cell)
+        if map.get_entity_by_cell(target_cell).type == "grass":
+            map.set_entity_to_cell(target_cell, static_entities.Rock(target_cell))
 
 
 class Predator(Creature):
@@ -63,7 +63,6 @@ class Predator(Creature):
 
 
 class Herbivore(Creature):
-
     def __init__(self, cell):
         super().__init__(cell)
         self.speed = 6

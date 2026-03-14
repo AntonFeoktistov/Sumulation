@@ -15,7 +15,7 @@ class Renderer:
         for i in range(map.M + 2):
             for j in range(map.N + 2):
                 cell = map.get_cell_by_coord(j, i)
-                type = map.field[cell].type
+                type = map.get_entity_by_cell(cell).type
                 print(
                     Renderer.sprites[type],
                     end="",

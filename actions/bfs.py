@@ -24,7 +24,7 @@ def find_path(creature, map: Map):
             if is_target_around(neighbor, map, target):
                 return path + [neighbor]
 
-            visited.add(neighbor)  # добавляем в visited сразу
+            visited.add(neighbor)
             queue.append((neighbor, path + [neighbor]))
 
     return None
@@ -35,9 +35,8 @@ def is_target_around(cell: Cell, map: Map, target: str):
         return False
     cells_around = get_cells_around(cell, map)
     for neighbor in cells_around:
-        if neighbor in map.field:
-            if target == map.get_entity_by_cell(neighbor).type:
-                return neighbor
+        if target == map.get_entity_by_cell(neighbor).type:
+            return neighbor
     return False
 
 
